@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -o nounset
+set -o errexit
+
+# $1 will be the expected name for the xpi
+node_modules/.bin/jpm xpi
+node_modules/.bin/addons-linter --output json --pretty "$1".xpi |\
+ node scripts/addon-lint-consumer.js
+
+echo "OK" $0

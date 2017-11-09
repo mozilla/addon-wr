@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -o nounset
+set -o errexit
+
+cat << DONE > test/test-z-ensure-coverage.js
+// automatically created by makeCoverageTest
+DONE
+
+git ls-tree -r HEAD --name-only lib | \
+grep "js$" | \
+xargs -I '{}' echo "require('../{}');" | \
+egrep -v "(jetpack|index.js|main.js)" >> test/test-z-ensure-coverage.js
+
+echo "OK" $0

@@ -1,0 +1,10 @@
+*.log
+*.update.rdf
+*.xpi
+.DS_Store
+coverage/
+deprecated/*
+npm-shrinkwrap.json
+node_modules/*
+test/test-z-ensure-coverage.js
+testing-env
