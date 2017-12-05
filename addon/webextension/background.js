@@ -112,30 +112,29 @@ class BrowserActionButtonChoiceFeature {
   }
 }
 
-function isPrefOn() {
-  return true;
+class AddHeaderForSpecialPage {
+  constructor(matchingUrls, headerName, headerValue) {
+    this.matchingUrls = matchingUrls;
+    this.headerName = headerName;
+    this.headerValue = headerValue;
+
+    this.registerHeaderListener();
+  }
+
+  listener(details) {
+    details.requestHeaders.push({name: this.headerName, value: this.headerValue});
+
+    return {requestHeaders: details.requestHeaders};
+  }
+
+  registerHeaderListener() {
+    browser.webRequest.onBeforeSendHeaders.addListener(
+      this.listener.bind(this),
+      {urls: this.matchingUrls},
+      ["blocking", "requestHeaders"]
+    )
+  }
 }
-
-function listener(details){
-
-  if (!isPrefOn)
-    return;
-  
-  let headers = details.requestHeaders;
-
-  details.requestHeaders.push({name: "X-TEST-HEADER", value: "X-HEADER-VALUE"});
-
-  return {requestHeaders: details.requestHeaders};
-}
-
-function registerHeaderListener {
-  browser.webRequest.onBeforeSendHeaders.addListener(
-    listener,
-    {urls: [targetUrl]},
-    ["blocking", "requestHeaders"]
-  )
-}
-
 /** CONFIGURE and INSTRUMENT the BrowserAction button for a specific variation
  *
  *  1. Request 'info' from the hosting Legacy Extension.
