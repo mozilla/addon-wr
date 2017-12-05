@@ -1,9 +1,40 @@
 "use strict";
 
-  const CSS = { code: `body {
-    border: 20px solid red;
-      transform: scaleY(-1);
-  }`};
+browser.runtime.onMessage.addListener(handleMessage);
+
+const wordList = getWordList();
+
+function handleMessage(msg, sender, sendResponse) {
+  switch (msg.type) {
+    case "getList":
+      console.log(wordList);
+      sendResponse(wordList);
+      break;
+    case "wordUsed":
+      // remove word from the list
+      wordList.delete(msg.word);
+      console.log(wordList);
+      break;
+    default:
+      throw new Error(`Message type not recognized: ${msg}`);
+  }
+}
+
+// TODO glind: get wordList from bootstrap
+// sends back list under these conditions:
+// if running as a pure web extension, send the list
+// if running as an embedded web extension, only send the list if the pref is set
+function getWordList() {
+  const wordList = new Set();
+  wordList.add("dark");
+  wordList.add("wizard");
+  return wordList;
+}
+
+const CSS = { code: `body {
+  border: 20px solid red;
+    transform: scaleY(-1);
+}`};
 
 function insertCSSOnAllTabs() {
   /*
@@ -13,7 +44,6 @@ function insertCSSOnAllTabs() {
   gettingAllTabs.then((tabs) => {
     for (let tab of tabs) {
       if (protocolIsApplicable(tab.url)) {
-        console.log(tab.id, tab.url);
         browser.tabs.insertCSS(tab.id, CSS);
       }
     }
@@ -24,7 +54,6 @@ function insertCSSOnAllTabs() {
   */
   browser.tabs.onUpdated.addListener((id, changeInfo, tab) => {
     if (protocolIsApplicable(tab.url)) {
-      console.log(id);
       browser.tabs.insertCSS(id, CSS);
     }
   });
