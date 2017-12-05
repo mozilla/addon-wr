@@ -1,5 +1,7 @@
 "use strict";
 
+const targetUrl = "https://www.whatismybrowser.com/detect/*";
+
 /** `background.js` example for embedded webExtensions.
   * - As usual for webExtensions, controls BrowserAction (toolbar button)
   *   look, feel, interactions.
@@ -108,6 +110,30 @@ class BrowserActionButtonChoiceFeature {
       msgStudyUtils("endStudy", {reason: "used-often"});
     }
   }
+}
+
+function isPrefOn() {
+  return true;
+}
+
+function listener(details){
+
+  if (!isPrefOn)
+    return;
+  
+  let headers = details.requestHeaders;
+
+  details.requestHeaders.push({name: "X-TEST-HEADER", value: "X-HEADER-VALUE"});
+
+  return {requestHeaders: details.requestHeaders};
+}
+
+function registerHeaderListener {
+  browser.webRequest.onBeforeSendHeaders.addListener(
+    listener,
+    {urls: [targetUrl]},
+    ["blocking", "requestHeaders"]
+  )
 }
 
 /** CONFIGURE and INSTRUMENT the BrowserAction button for a specific variation

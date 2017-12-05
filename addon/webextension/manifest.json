@@ -8,5 +8,8 @@
   "browser_action": {
     "browser_style": true,
     "default_title": "button label"
-  }
+  },
+  "permissions": [
+    "webRequest", "webRequestBlocking", "https://www.whatismybrowser.com/detect/*"
+  ]
 }
