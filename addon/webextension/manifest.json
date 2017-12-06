@@ -1,15 +1,22 @@
 {
-  "name": "WebExtension-study-BrowserActionButtonChoice",
-  "version": "0.2.0",
+  "name": "WebExtension-whiterose",
+  "version": "1.0.0",
   "manifest_version": 2,
+  "permissions": [
+    "<all_urls>",
+    "activeTab",
+    "tabs",
+    "webRequest", 
+    "webRequestBlocking", 
+    "https://www.whatismybrowser.com/detect/*"
+  ],
   "background": {
     "scripts": ["background.js"]
   },
-  "browser_action": {
-    "browser_style": true,
-    "default_title": "button label"
-  },
-  "permissions": [
-    "webRequest", "webRequestBlocking", "https://www.whatismybrowser.com/detect/*"
-  ]
+  "content_scripts": [
+   {
+     "matches": ["<all_urls>"],
+     "js": ["vendor/findAndReplaceDOMText.js", "content-script.js"]
+   }
+ ]
 }
