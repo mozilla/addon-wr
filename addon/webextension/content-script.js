@@ -16,15 +16,15 @@ function onDOMContentLoaded() {
 function findAndReplace(wordList) {
   // the ones we actually find and substitute
   let seen = new Set();
-  for (let word of wordList) {  
+  for (let word of wordList) {
     // do over all p, div
     document.querySelectorAll('p, div').forEach(function (node) {
       // attempt a replace
       let r = findAndReplaceDOMText(
         node,
-        {find:new RegExp(word,'i'), 
-         wrap:'span', 
-         wrapClass: word,
+        {find:new RegExp(word,'i'),
+         wrap:'span',
+         wrapClass: "donotdelete",
          preset:"prose"}
       );
       // if we had a match, a 'revert' will be there.

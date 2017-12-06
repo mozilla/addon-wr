@@ -1,17 +1,16 @@
 {
-  "name": "shield-studies-addon-template",
-  "description": "Template Shield Study",
-  "version": "1.2.0",
+  "name": "whiterose-experience",
+  "description": "Augmented Reality Game Experience",
+  "version": "1.0.0",
   "author": "Mozilla Gregg Lind <glind@mozilla.com>",
   "addon": {
     "ABOUT": "use these variables fill the moustache templates",
-    "id": "@template-button-study.shield.mozilla.com",
-    "name": "Shield Bootstrap Example - Button Study",
+    "id": "whiterose-experience@shield.mozilla.org",
     "minVersion": "57.0",
     "maxVersion": "*",
     "multiprocessCompatible": true,
     "hasEmbeddedWebExtension": true,
-    "chromeResource": "template-shield-study-button-study",
+    "chromeResource": "whiterose-experience",
     "creator": "Gregg Lind <glind@mozilla.com>",
     "description": "template shield study to serve a as base.  This one is about Toolbar Buttons",
     "bugzilla": "<tbd: bug to attach for signing>",
@@ -31,7 +30,6 @@
     "eslint-plugin-json": "^1.2.0",
     "eslint-plugin-mozilla": "^0.4.4",
     "eslint-plugin-no-unsanitized": "^2.0.1",
-    "findandreplacedomtext": "^0.4.6",
     "fs-extra": "^3.0.1",
     "fx-runner": "^1.0.6",
     "geckodriver": "^1.7.1",
@@ -43,15 +41,13 @@
     "nsp": "^2.8.1",
     "onchange": "^3.2.1",
     "path": "^0.12.7",
-    "selenium-webdriver": "^3.5.0",
-    "shield-studies-addon-utils": "^4.1.0"
+    "selenium-webdriver": "^3.5.0"
   },
   "homepage": "http://github.com/mozilla/shield-studies-addon-template",
   "keywords": [
     "mozilla",
     "legacy-addon",
-    "firefox",
-    "shield-study"
+    "firefox"
   ],
   "license": "MIT",
   "main": "index.js",
@@ -69,9 +65,7 @@
     "lint:nsp": "nsp check",
     "firefox": "export XPI=dist/linked-addon.xpi && npm run build && node run-firefox.js",
     "harness_test": "export XPI=dist/linked-addon.xpi && mocha test/functional_tests.js --retry 2 --reporter json",
-    "prebuild": "cp node_modules/shield-studies-addon-utils/dist/StudyUtils.jsm addon/",
     "sign": "echo 'TBD, see: https://bugzilla.mozilla.org/show_bug.cgi?id=1407757'",
-    "test": "export XPI=dist/linked-addon.xpi && npm run build && mocha test/functional_tests.js --retry 2",
-    "watch": "onchange 'addon/**' 'package.json' 'template/**' -e addon/install.rdf -e addon/chrome.manifest -e addon/StudyUtils.jsm -- npm run build -- '{{event}} {{changed}} $(date)'"
+    "test": "export XPI=dist/linked-addon.xpi && npm run build && mocha test/functional_tests.js --retry 2"
   }
 }
