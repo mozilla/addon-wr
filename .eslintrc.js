@@ -5,19 +5,21 @@
  */
 
 module.exports = {
-  "parserOptions": {
-      "ecmaVersion": 8,
-      "sourceType": "module",
-      "ecmaFeatures": {
-          "jsx": false,
-          "experimentalObjectRestSpread": true
-      }
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: false,
+      experimentalObjectRestSpread: true,
+    },
+    ecmaVersion: 8,
+    sourceType: "module",
   },
-  env: {
-    'es6': true,
-    // 'browser-window': false
 
+  env: {
+    browser: true,
+    es6: true,
+    webextensions: true,
   },
+
   extends: [
     "eslint:recommended",
     /* list of rules at:
@@ -28,18 +30,21 @@ module.exports = {
 
   plugins: [
     "json",
-    "mozilla"
+    "mozilla",
   ],
+
+  root: true,
 
   rules: {
     "babel/new-cap": "off",
+    "mozilla/no-aArgs": "warn",
+    "mozilla/balanced-listeners": "off",
+
     "comma-dangle": ["error", "always-multiline"],
     "eqeqeq": "error",
     "indent": ["warn", 2, {SwitchCase: 1}],
-    "mozilla/no-aArgs": "warn",
-    "mozilla/balanced-listeners": 0,
     "no-console": "warn",
-    "no-shadow": ["error"],
+    "no-shadow": "error",
     "no-unused-vars": "error",
     "prefer-const": "warn",
     "prefer-spread": "error",

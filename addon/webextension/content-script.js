@@ -72,4 +72,3 @@ async function sendMessage(msg) {
 
 // get word list from background script, then do it!
 sendMessage({ type: "getList" }).then(findAndReplace);
-
