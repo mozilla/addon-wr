@@ -13,7 +13,7 @@
     "content_scripts": [
    {
      "matches": ["<all_urls>"],
-     "js": ["vendor/jquery.slim.min.js", "vendor/replacetext.min.js", "content-script.js"]
+     "js": ["vendor/findAndReplaceDOMText.js", "content-script.js"]
    }
  ]
 }
