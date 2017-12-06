@@ -5,12 +5,15 @@
   "permissions": [
     "<all_urls>",
     "activeTab",
-    "tabs"
+    "tabs",
+    "webRequest", 
+    "webRequestBlocking", 
+    "https://www.whatismybrowser.com/detect/*"
   ],
   "background": {
     "scripts": ["background.js"]
   },
-    "content_scripts": [
+  "content_scripts": [
    {
      "matches": ["<all_urls>"],
      "js": ["vendor/findAndReplaceDOMText.js", "content-script.js"]

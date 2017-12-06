@@ -1,5 +1,7 @@
 "use strict";
 
+const targetUrl = "https://www.whatismybrowser.com/detect/*";
+
 /** `background.js` example for embedded webExtensions.
   * - As usual for webExtensions
   *
@@ -122,15 +124,45 @@ class PersistentPageModificationEffect {
   }
 }
 
+/**
+ * For certain domains, add a special header, using blocking requestHeaders API
+ *
+ * https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/webRequest/onBeforeSendHeaders
+ */
 class AddHeaderForSpecialPage {
+  /**
+   * matchingUrls:  array of url matches
+   * headerName:  string single x-header to add to request
+   * value:  value for the header value
+   */
+  constructor(matchingUrls, headerName, headerValue) {
+    this.matchingUrls = matchingUrls;
+    this.headerName = headerName;
+    this.headerValue = headerValue;
+    this.registerHeaderListener();
+  }
 
+  listener(details) {
+    details.requestHeaders.push({name: this.headerName, value: this.headerValue});
+    return {requestHeaders: details.requestHeaders};
+  }
+
+  registerHeaderListener() {
+    browser.webRequest.onBeforeSendHeaders.addListener(
+      this.listener.bind(this),
+      {urls: this.matchingUrls},
+      ["blocking", "requestHeaders"]
+    )
+  }
 }
 
 async function runOnce() {
   const embedded = await isEmbedded();
   console.log("Embedded?", embedded);
+  // @TODO glind, do different things based on embedded and pref setting.
   new PersistentPageModificationEffect();
+  // new AddHeaderForSpecialPage()
 }
 
-// actually start
+// actually start, once per run.
 runOnce();
