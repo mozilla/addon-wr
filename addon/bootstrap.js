@@ -11,13 +11,18 @@ XPCOMUtils.defineLazyModuleGetter(this, "LegacyExtensionsUtils",
 
 const prefs = Services.prefs;
 
-// our pref
+// our pref, set it with default false, if it's not there.
 const PREFNAME = "browser.display.truth";
 if (!prefs.prefHasUserValue(PREFNAME)) {
   prefs.setBoolPref(PREFNAME, false);
 }
 
 async function startup(addonData, _reason) {
+  // IFF the pref is true, startup
+  if (prefs.getBoolPref(PREFNAME, false)) {
+    addonData.webExtension.startup();
+  }
+
   // set a watcher for that pref.
   // https://developer.mozilla.org/en-US/docs/Mozilla/Tech/XPCOM/Reference/Interface/nsIPrefBranch
   prefs.addObserver(PREFNAME, (_aSubject, _aTopic, _aData) => {
@@ -34,9 +39,4 @@ async function startup(addonData, _reason) {
     if (userOptedIn) realWebExtension.startup();
     else realWebExtension.shutdown();
   });
-
-  // IFF the pref is set, startup
-  if (prefs.getBoolPref(PREFNAME, false)) {
-    webExtension.startup();
-  }
 }
