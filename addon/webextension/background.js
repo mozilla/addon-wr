@@ -8,7 +8,7 @@
 
 
 // constants used by particular effects
-const WORDS = "dark army distinigration   delete".split(/\s+/);
+const WORDS = "dark army distintigration data privacy internet delete".split(/\s+/);
 const XHEADERSITES = ['<all_urls>'];
 const XHEADERNAME = 'dontdeleteme';
 const XHEADERVALUE = '1057'
@@ -32,12 +32,11 @@ class PersistentPageModificationEffect {
   constructor(wordArray, CSS) {
     if (!CSS) CSS = `
       .donotdelete {
-        background-color: pink;
         transform: scaleY(-1);
         display: inline-block;
       }`
 
-    this.wordSet = new Set(wordArray)
+    this.wordSet = new Set(wordArray);
     this.insertCSSOnAllTabs();
     this.addListeners();
     this.APPLICABLE_PROTOCOLS = ["http:", "https:", "ftp:", "file:"];
@@ -60,7 +59,6 @@ class PersistentPageModificationEffect {
   handleMessageFromContent(msg, sender, sendResponse) {
     switch (msg.type) {
       case "getList":
-        this.wordSet = this.getwordSet();
         sendResponse(this.wordSet);
         break;
       case "wordUsed":

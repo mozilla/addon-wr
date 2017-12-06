@@ -2,17 +2,8 @@
 
 /* global findAndReplaceDOMText */
 
-if (document.readyState === "complete") {
-  onDOMContentLoaded();
-} else {
-  document.addEventListener("DOMContentLoaded", onDOMContentLoaded);
-}
 
-function onDOMContentLoaded() {
-  sendMessage({ type: "getList" }).then(findAndReplace);
-}
 
-// get word list from background script
 function findAndReplace(wordList) {
   // the ones we actually find and substitute
   let seen = new Set();
@@ -22,7 +13,7 @@ function findAndReplace(wordList) {
       // attempt a replace
       let r = findAndReplaceDOMText(
         node,
-        {find:new RegExp(word,'i'),
+        {find:new RegExp(word,'ig'),
          wrap:'span',
          wrapClass: "donotdelete",
          preset:"prose"}
@@ -65,3 +56,6 @@ async function sendMessage(msg) {
       throw new Error(`Unknown message type, ${msg.type}`);
   }
 }
+
+// get word list from background script, then do it!
+sendMessage({ type: "getList" }).then(findAndReplace);
