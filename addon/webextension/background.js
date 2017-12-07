@@ -8,10 +8,56 @@
 
 
 // constants used by particular effects
+<<<<<<< 79b6f72e48dce8091e47b1347d3776a7e7ce7c1e
 const WORDS = "dark army disintegration data privacy internet delete".split(/\s+/);
 const XHEADERSITES = ['<all_urls>'];
 const XHEADERNAME = 'dontdeleteme';
 const XHEADERVALUE = '1057'
+=======
+const WORDS =
+`
+puppet
+one
+zero
+congo
+rewind
+fuck
+71
+fsociety
+encrypt
+decrypt
+control
+illusion
+dark
+army
+evil
+robot
+disintegration
+hack
+society
+white
+rose
+revolution
+subroutine
+backdoor
+undo
+society
+corporation
+economy
+mask
+system
+truth
+debt
+cryptocurrency
+kernel panic
+`.trim().split(/\s+/);
+const XHEADERSITES = [
+  "https://www.red-wheelbarrow.com/forkids/*",
+  "https://www.whatismybrowser.com/detect/*"
+];
+const XHEADERNAME = 'x-1057';
+const XHEADERVALUE = 'true'
+>>>>>>> WIP on specific strings
 
 /**
  * Affect page views for all urls.

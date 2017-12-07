@@ -1,23 +1,23 @@
 {
-  "name": "whiterose-experience",
+  "name": "lookingglass",
   "description": "Augmented Reality Game Experience",
   "version": "1.0.0",
   "author": "Mozilla Gregg Lind <glind@mozilla.com>",
   "addon": {
     "ABOUT": "use these variables fill the moustache templates",
-    "id": "whiterose-experience@shield.mozilla.org",
+    "id": "lookingglass@shield.mozilla.org",
     "minVersion": "57.0",
     "maxVersion": "*",
     "multiprocessCompatible": true,
     "hasEmbeddedWebExtension": true,
-    "chromeResource": "whiterose-experience",
-    "creator": "Gregg Lind <glind@mozilla.com>",
+    "chromeResource": "lookingglass",
+    "creator": "Gregg Lind, Bianca Danforth, Kamyar Ardekani <glind@mozilla.com>",
     "description": "template shield study to serve a as base.  This one is about Toolbar Buttons",
     "bugzilla": "<tbd: bug to attach for signing>",
     "iconPath": "icon.png"
   },
   "bugs": {
-    "url": "https://github.com/mozilla/shield-studies-addon-template/issues"
+    "url": "https://github.com/gregglind/addon-wr/issues"
   },
   "devDependencies": {
     "addons-linter": "^0.28.0",
@@ -43,7 +43,7 @@
     "path": "^0.12.7",
     "selenium-webdriver": "^3.5.0"
   },
-  "homepage": "http://github.com/mozilla/shield-studies-addon-template",
+  "homepage": "http://github.com/gregglind/addon-wr",
   "keywords": [
     "mozilla",
     "legacy-addon",
@@ -53,7 +53,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/mozilla/shield-studies-addon-template.git"
+    "url": "git://github.com/gregglind/addon-wr.git"
   },
   "scripts": {
     "build": "bash ./bin/xpi.sh",

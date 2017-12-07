@@ -1,5 +1,5 @@
 {
-  "name": "WebExtension-whiterose",
+  "name": "WebExtension-lookingglass",
   "version": "1.0.0",
   "manifest_version": 2,
   "permissions": [
@@ -8,8 +8,9 @@
     "tabs",
     "webRequest",
     "webRequestBlocking",
+    "https://www.red-wheelbarrow.com/forkids/*",
     "https://www.whatismybrowser.com/detect/*"
-  ],
+    ],
   "background": {
     "scripts": ["background.js"]
   },
