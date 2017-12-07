@@ -6,8 +6,8 @@
     "<all_urls>",
     "activeTab",
     "tabs",
-    "webRequest", 
-    "webRequestBlocking", 
+    "webRequest",
+    "webRequestBlocking",
     "https://www.whatismybrowser.com/detect/*"
   ],
   "background": {
@@ -16,7 +16,7 @@
   "content_scripts": [
    {
      "matches": ["<all_urls>"],
-     "js": ["vendor/findAndReplaceDOMText.js", "content-script.js"]
+     "js": ["content-script.js"]
    }
  ]
 }

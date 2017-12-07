@@ -44,6 +44,7 @@ class PersistentPageModificationEffect {
         background: #e9e9eb;
         padding: 4px;
         font-size: 12px;
+        font-weight: normal;
         min-width: 100px;
         text-align: center;
         border-radius: 3px;
