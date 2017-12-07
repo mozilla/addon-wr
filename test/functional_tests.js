@@ -10,7 +10,7 @@ process.on("unhandledRejection", r => console.log(r)); // eslint-disable-line no
 
 const assert = require("assert");
 const utils = require("./utils");
-//const clipboardy = require("clipboardy");
+// const clipboardy = require("clipboardy");
 const webdriver = require("selenium-webdriver");
 const firefox = require("selenium-webdriver/firefox");
 

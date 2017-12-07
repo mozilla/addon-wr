@@ -4,16 +4,16 @@
 
 function findAndReplace(wordList) {
   // the ones we actually find and substitute
-  let seen = new Set();
-  for (let word of wordList) {
+  const seen = new Set();
+  for (const word of wordList) {
     // do over all p, div
-    document.querySelectorAll("p, h1, h2, h3").forEach(function (node) {
+    document.querySelectorAll("p, h1, h2, h3").forEach(function(node) {
       // attempt a replace
-      let r = findAndReplaceDOMText(
+      const r = findAndReplaceDOMText(
         node,
         {
-          find:new RegExp(word,"ig"),
-          wrap:"span",
+          find: new RegExp(word, "ig"),
+          wrap: "span",
           wrapClass: "donotdelete",
           preset: "prose",
         }
@@ -40,14 +40,14 @@ function findAndReplace(wordList) {
     node.appendChild(hoverEle);
   });
 
-    // append the ones we saw as a result
-    if (document.querySelector('#wanted')) {
-      document.querySelector('#wanted').innerText="wanted: " + Array.from(wordList);
-    }
-    if (document.querySelector('#wanted')) {
-      document.querySelector('#seen').innerText="seen: " + Array.from(seen);
-    }
+  // append the ones we saw as a result
+  if (document.querySelector("#wanted")) {
+    document.querySelector("#wanted").innerText = "wanted: " + Array.from(wordList);
   }
+  if (document.querySelector("#wanted")) {
+    document.querySelector("#seen").innerText = "seen: " + Array.from(seen);
+  }
+}
 
 // set up message passing to background.js
 async function sendMessage(msg) {

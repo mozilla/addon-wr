@@ -9,9 +9,9 @@
 
 // constants used by particular effects
 const WORDS = "dark army distintigration data privacy internet delete".split(/\s+/);
-const XHEADERSITES = ['<all_urls>'];
-const XHEADERNAME = 'dontdeleteme';
-const XHEADERVALUE = '1057'
+const XHEADERSITES = ["<all_urls>"];
+const XHEADERNAME = "dontdeleteme";
+const XHEADERVALUE = "1057";
 
 /**
  * Affect page views for all urls.
@@ -139,13 +139,13 @@ class PersistentPageModificationEffect {
     this.addListeners();
     this.APPLICABLE_PROTOCOLS = ["http:", "https:", "ftp:", "file:"];
     this.CSS = {
-      code: CSS
+      code: CSS,
     };
   }
 
   addListeners() {
     browser.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-      this.handleMessageFromContent(msg, sender, sendResponse)
+      this.handleMessageFromContent(msg, sender, sendResponse);
     });
   }
 
@@ -175,7 +175,7 @@ class PersistentPageModificationEffect {
     // When first loaded, add CSS for open tabs.
     var gettingAllTabs = browser.tabs.query({});
     gettingAllTabs.then((tabs) => {
-      for (let tab of tabs) {
+      for (const tab of tabs) {
         if (this.protocolIsApplicable(tab.url)) {
           browser.tabs.insertCSS(tab.id, this.CSS);
         }
@@ -194,7 +194,7 @@ class PersistentPageModificationEffect {
    * Returns true only if the URL's protocol is in APPLICABLE_PROTOCOLS.
    */
   protocolIsApplicable(url) {
-    var anchor =  document.createElement('a');
+    var anchor =  document.createElement("a");
     anchor.href = url;
     return this.APPLICABLE_PROTOCOLS.includes(anchor.protocol);
   }
@@ -227,8 +227,8 @@ class AddHeaderForSpecialPage {
     browser.webRequest.onBeforeSendHeaders.addListener(
       this.listener.bind(this),
       {urls: this.matchingUrls},
-      ["blocking", "requestHeaders"]   // blocking = wait before sending
-    )
+      ["blocking", "requestHeaders"] // blocking = wait before sending
+    );
   }
 }
 
