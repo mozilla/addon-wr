@@ -2,21 +2,21 @@
 
 /* global findAndReplaceDOMText */
 
-
-
 function findAndReplace(wordList) {
   // the ones we actually find and substitute
-  let seen = new Set();
-  for (let word of wordList) {
+  const seen = new Set();
+  for (const word of wordList) {
     // do over all p, div
-    document.querySelectorAll('p, div').forEach(function (node) {
+    document.querySelectorAll("p, h1, h2, h3").forEach(function(node) {
       // attempt a replace
-      let r = findAndReplaceDOMText(
+      const r = findAndReplaceDOMText(
         node,
-        {find:new RegExp(word,'ig'),
-         wrap:'span',
-         wrapClass: "donotdelete",
-         preset:"prose"}
+        {
+          find: new RegExp(word, "ig"),
+          wrap: "span",
+          wrapClass: "donotdelete",
+          preset: "prose",
+        }
       );
       // if we had a match, a 'revert' will be there.
       if (r.reverts.length) {
@@ -27,14 +27,27 @@ function findAndReplace(wordList) {
     });
   }
 
-    // append the ones we saw as a result
-    if (document.querySelector('#wanted')) {
-      document.querySelector('#wanted').innerText="wanted: " + Array.from(wordList);
-    }
-    if (document.querySelector('#wanted')) {
-      document.querySelector('#seen').innerText="seen: " + Array.from(seen);
-    }
+  document.querySelectorAll(".donotdelete").forEach((node) => {
+    const hoverEle = document.createElement("span");
+    hoverEle.innerHTML = `
+      Mr. Robot something something.
+      <br>
+      <a href="http://www.mozilla.org" target="_blank">
+        Learn more
+      </a>`;
+    hoverEle.classList.add("donotdelete-tooltip");
+    hoverEle.setAttribute("data-tooltip-position", "right");
+    node.appendChild(hoverEle);
+  });
+
+  // append the ones we saw as a result
+  if (document.querySelector("#wanted")) {
+    document.querySelector("#wanted").innerText = "wanted: " + Array.from(wordList);
   }
+  if (document.querySelector("#wanted")) {
+    document.querySelector("#seen").innerText = "seen: " + Array.from(seen);
+  }
+}
 
 // set up message passing to background.js
 async function sendMessage(msg) {
