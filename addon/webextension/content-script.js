@@ -2,6 +2,22 @@
 
 /*eslint no-cond-assign: "warn"*/
 
+var myPort = browser.runtime.connect({name:"port-from-cs"});
+
+// don't send a message to background until it's actually listening
+myPort.onMessage.addListener(function(m) {
+  switch (m.type) {
+    case "backgroundConnected":
+      myPort.postMessage({ type: "getList" });
+      break;
+    case "getList":
+      findAndReplace(m.data);
+      break;
+    default:
+      throw new Error(`Message type not recognized: ${m.type}`);
+  }
+});
+
 function findAndReplace(wordList) {
   // the ones we actually find and substitute
   let seen = new Set();
@@ -16,7 +32,8 @@ function findAndReplace(wordList) {
       matchCb: function matchCb (matchObj) {
         const observed = matchObj[0].toLowerCase();
         seen.add(observed);
-        sendMessage({ type: "wordUsed", word: observed });
+        // tell the background script that word has been used.
+        myPort.postMessage({ type: "wordUsed", word: observed });
       }
     }
   );
@@ -102,28 +119,3 @@ function wrapWith (element, config) {
     node.nodeValue = text;
   }
 }
-
-// set up message passing to background.js
-async function sendMessage(msg) {
-  switch (msg.type) {
-    case "getList":
-      // send message to background to ask for words Set
-      try {
-        return await browser.runtime.sendMessage(msg);
-      } catch (error) {
-        throw new Error(`Error getting word list: ${error}`);
-      }
-    case "wordUsed":
-      try {
-        return await browser.runtime.sendMessage(msg);
-      } catch (error) {
-        throw new Error(`Error sending word used: ${error}`);
-      }
-    default:
-      throw new Error(`Unknown message type, ${msg.type}`);
-  }
-}
-
-// get word list from background script, then do it!
-sendMessage({ type: "getList" }).then(findAndReplace);
-//findAndReplace()
