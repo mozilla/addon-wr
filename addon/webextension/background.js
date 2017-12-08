@@ -82,6 +82,11 @@ class PersistentPageModificationEffect {
         transition: 1s ease-in;
       }
 
+      /* after revert, revert the tooltip */
+      .donotdelete-revert .donotdelete-tooltip {
+        transform: scaleY(1) translateY(-50%);
+      }
+
       .donotdelete-tooltip {
         visibility: hidden;
         display: inline-block;
@@ -132,6 +137,7 @@ class PersistentPageModificationEffect {
       .donotdelete:hover .donotdelete-tooltip {
         visibility: visible !important;
       }
+
 
       /* Vertical centering */
       [data-tooltip-position] {

@@ -45,6 +45,7 @@ function findAndReplace(wordList) {
     }
   );
 
+
   document.querySelectorAll(".donotdelete").forEach((node) => {
     const hoverEle = document.createElement("span");
     // eslint-disable-next-line no-unsanitized/property
@@ -61,11 +62,11 @@ function findAndReplace(wordList) {
   });
 
   // between 1-5 seconds, flip them back, but keep the over.  see #22
-  const delayToRevert = 1000; // (4*Math.random() + 1)*1000
+  const delayToRevert = (4*Math.random() + 1)*1000;
   setTimeout(()=>{
     document.querySelectorAll('.donotdelete').
       forEach(node=>{
-          //node.classList.add("donotdelete-revert")
+          node.classList.add("donotdelete-revert");
     });
   },delayToRevert);
 
