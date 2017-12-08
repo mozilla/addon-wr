@@ -150,7 +150,7 @@ class PersistentPageModificationEffect {
     this.insertCSSOnAllTabs();
     this.addListeners();
     this.portFromCS = null;
-    this.APPLICABLE_PROTOCOLS = ["http:", "https:", "ftp:", "file:"];
+    this.APPLICABLE_PROTOCOLS = ["http:", "https:", "file:"];
     this.CSS = {
       code: CSS
     };
