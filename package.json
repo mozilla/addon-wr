@@ -59,11 +59,6 @@
   "scripts": {
     "build": "bash ./bin/xpi.sh",
     "eslint": "eslint addon --ext jsm --ext js --ext json",
-    "lint": "npm-run-all lint:*",
-    "lint:addons-linter": "# actually a post build test:  bin/addonLintTest ' + require('./package.json').name",
-    "lint:eslint": "npm eslint",
-    "lint:fixpack": "fixpack",
-    "lint:nsp": "nsp check",
     "firefox": "export XPI=dist/linked-addon.xpi && npm run build && node run-firefox.js",
     "harness_test": "export XPI=dist/linked-addon.xpi && mocha test/functional_tests.js --retry 2 --reporter json",
     "sign": "echo 'TBD, see: https://bugzilla.mozilla.org/show_bug.cgi?id=1407757'",

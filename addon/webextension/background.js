@@ -78,17 +78,18 @@ class PersistentPageModificationEffect {
       }
 
       .donotdelete-revert {
-        transform: ScaleY(1);
-        transition: 1s ease-in;
+        transform: scaleY(1);
+        transition: transform 1s ease-in;
       }
 
       /* after revert, revert the tooltip */
       .donotdelete-revert .donotdelete-tooltip {
         transform: scaleY(1) translateY(-50%);
+        transition: transform 1s ease-in;
       }
 
       .donotdelete-tooltip {
-        visibility: hidden;
+        visibility: hidden !important;
         display: inline-block;
         position: absolute;
         min-height: 50px;
@@ -101,6 +102,7 @@ class PersistentPageModificationEffect {
         box-shadow: var(--standard-box-shadow);
         z-index: 50 !important;
         /* Neutralizing styles */
+        font-style: normal !important;
         transform: scaleY(-1) translateY(50%);
         color: black !important;
         text-shadow: none !important;
@@ -108,7 +110,7 @@ class PersistentPageModificationEffect {
         font-family: sans-serif !important;
         font-size: 12px !important;
         font-weight: normal !important;
-        background-color: #e9e9eb !important;
+        background-color: #ffffff !important;
         letter-spacing: 0 !important;
         text-transform: none !important;
       }

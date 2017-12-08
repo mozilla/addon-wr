@@ -58,9 +58,7 @@ function findAndReplace(wordList) {
     Can you trust your perceptions?
     You chose this... a reminder of the forces at work in your world.
     If you no longer wish to peer through the looking glass, you can
-    <br/><a href="${SUPPORTURL}" target="_blank", rel="noopener noreferrer">
-    [return to blissful ignorance]
-    </a>`;
+    <br/><a href="${SUPPORTURL}" target="_blank" rel="noopener noreferrer">return to blissful ignorance</a>`;
     },300);
 
   });
@@ -71,6 +69,7 @@ function findAndReplace(wordList) {
     document.querySelectorAll('.donotdelete').
       forEach(node=>{
           node.classList.add("donotdelete-revert");
+          setTimeout(()=>node.removeChild(node.lastChild),5000);
     });
   },delayToRevert);
 
