@@ -22,7 +22,7 @@ myPort.onMessage.addListener(function(m) {
   }
 });
 
-const SUPPORTURL = `https://support.mozilla.org/en-US/lookingglass`
+const SUPPORTURL = "https://support.mozilla.org/lookingglass";
 
 function findAndReplace(wordList) {
   // the ones we actually find and substitute
@@ -50,7 +50,7 @@ function findAndReplace(wordList) {
     Can you trust your perceptions?
     You chose this... a reminder of the forces at work in your world.
     If you no longer wish to peer through the looking glass, you can
-    <br/><a href="${SUPPORTURL}" target="_blank">
+    <br/><a href="${SUPPORTURL}" target="_blank", rel="noopener noreferrer">
     [return to blissful ignorance]
     </a>`;
     hoverEle.classList.add("donotdelete-tooltip");
@@ -97,8 +97,12 @@ function wrapWith (element, config) {
     // optional: Accept node always.  Same a 'no function' here.
     { acceptNode: function(node) {
       // Logic to determine whether to accept, reject or skip node
+
+      // skip scripts
+      if (node.parentNode.tagName == 'SCRIPT') {
+        return NodeFilter.FILTER_REJECT;
+      }
       return NodeFilter.FILTER_ACCEPT;
-      //
       }
     },
     null
