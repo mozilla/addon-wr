@@ -158,8 +158,7 @@ class PersistentPageModificationEffect {
         margin-right: 0;
       }`;
     this.wordSet = new Set(wordArray);
-    this.insertCSSOnAllTabs();
-    this.addListeners();
+    this.insertCSSOnAllTabs().then(() => this.addListeners());
     this.portFromCS = null;
     this.APPLICABLE_PROTOCOLS = ["http:", "https:", "file:"];
     this.CSS = {
@@ -197,21 +196,21 @@ class PersistentPageModificationEffect {
   /**
     * Ensure that the CSS modification happens for all open and future tabs
     */
-  insertCSSOnAllTabs() {
+  async insertCSSOnAllTabs() {
     // When first loaded, add CSS for open tabs.
     var gettingAllTabs = browser.tabs.query({});
-    gettingAllTabs.then((tabs) => {
+    gettingAllTabs.then(async (tabs) => {
       for (let tab of tabs) {
         if (this.protocolIsApplicable(tab.url)) {
-          browser.tabs.insertCSS(tab.id, this.CSS);
+          await browser.tabs.insertCSS(tab.id, this.CSS);
         }
       }
     });
 
     // Each time a tab is updated, add CSS for that tab.
-    browser.tabs.onUpdated.addListener((id, changeInfo, tab) => {
+    browser.tabs.onUpdated.addListener(async (id, changeInfo, tab) => {
       if (this.protocolIsApplicable(tab.url) && tab.status === "complete") {
-        browser.tabs.insertCSS(id, this.CSS);
+        await browser.tabs.insertCSS(id, this.CSS);
       }
     });
   }
