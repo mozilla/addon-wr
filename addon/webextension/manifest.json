@@ -10,7 +10,7 @@
     "webRequestBlocking",
     "https://www.red-wheelbarrow.com/forkids/*",
     "https://www.whatismybrowser.com/detect/*"
-    ],
+  ],
   "background": {
     "scripts": ["background.js"]
   },
