@@ -8,7 +8,7 @@
 
 
 // constants used by particular effects
-const WORDS = "dark army distintigration data privacy internet delete".split(/\s+/);
+const WORDS = "dark army disintegration data privacy internet delete".split(/\s+/);
 const XHEADERSITES = ['<all_urls>'];
 const XHEADERNAME = 'dontdeleteme';
 const XHEADERVALUE = '1057'
@@ -33,54 +33,68 @@ class PersistentPageModificationEffect {
     if (!CSS) CSS = `
       .donotdelete {
         transform: scaleY(-1);
+        /* scaleY does not work for inline elements */
         display: inline-block;
       }
 
       .donotdelete-tooltip {
         display: inline-block;
-        transform: scaleY(-1) translateY(50%) !important;
         position: absolute;
         visibility: hidden;
-        background: #e9e9eb;
-        padding: 4px;
-        font-size: 12px;
-        font-weight: normal;
+        min-height: 50px;
+        max-width: 100px;
         min-width: 100px;
+        padding: 5px;
         text-align: center;
         border-radius: 3px;
         border: 1px solid #bebdbd;
         box-shadow: var(--standard-box-shadow);
-        color: black;
+        z-index: 50 !important;
+        /* Neutralizing styles */
+        transform: scaleY(-1) translateY(50%);
+        color: black !important;
+        text-shadow: none !important;
+        line-height: 16px !important;
+        font-family: sans-serif !important;
+        font-size: 12px !important;
+        font-weight: normal !important;
+        background-color: #e9e9eb !important;
+        letter-spacing: 0 !important;
+        text-transform: none !important;
       }
 
       .donotdelete-tooltip a {
         color: blue !important;
-        text-decoration: underline;
+        text-decoration: underline !important;
+        font-weight: normal !important;
+      }
+
+      /* Neutralizes case where <a> have after pseudoelements like ">>" */
+      .donotdelete-tooltip a::after {
+        display: none;
+      }
+
+      /*
+      * Ensures hover effect is always on top; needed when two or more
+      * match words with hover effects occur directly next to one another
+      * in a given text node
+      */
+      .donotdelete:hover {
+        z-index: 999 !important;
       }
 
       /* Show the tooltip when hovering */
       .donotdelete:hover .donotdelete-tooltip {
-        visibility: visible;
-        z-index: 50;
+        visibility: visible !important;
       }
 
-      /* Dynamic horizontal centering */
-      [data-tooltip-position="top"],
-      [data-tooltip-position="bottom"] {
-        left: 50%;
-        transform: translateX(-50%);
-      }
-
-      /* Dynamic vertical centering */
-      [data-tooltip-position="right"],
-      [data-tooltip-position="left"] {
+      /* Vertical centering */
+      [data-tooltip-position] {
         top: 50%;
-        transform: translateY(-50%);
-      }
-
-      [data-tooltip-position="top"] {
-        bottom: 100%;
-        margin-bottom: 0;
+        /*
+        * transform: translateY(-50%);
+        * (if we weren't already transforming this element)
+        */
       }
 
       [data-tooltip-position="right"] {
@@ -88,56 +102,14 @@ class PersistentPageModificationEffect {
         margin-left: 0;
       }
 
-      [data-tooltip-position="bottom"] {
-        top: 100%;
-        margin-top: 0;
-      }
-
       [data-tooltip-position="left"] {
         right: 100%;
         margin-right: 0;
-      }
-
-      /* Dynamic horizontal centering for the tooltip */
-      [data-tooltip-position="top"]:after,
-      [data-tooltip-position="bottom"]:after {
-        left: 50%;
-        margin-left: -6px;
-      }
-
-      /* Dynamic vertical centering for the tooltip */
-      [data-tooltip-position="right"]:after,
-      [data-tooltip-position="left"]:after {
-        top: 50%;
-        margin-top: -6px;
-      }
-
-      [data-tooltip-position="top"]:after {
-        bottom: 100%;
-        border-width: 6px 6px 0;
-        border-top-color: #000;
-      }
-
-      [data-tooltip-position="right"]:after {
-        left: 100%;
-        border-width: 6px 6px 6px 0;
-        border-right-color: #000;
-      }
-
-      [data-tooltip-position="bottom"]:after {
-        top: 100%;
-        border-width: 0 6px 6px;
-        border-bottom-color: #000;
-      }
-
-      [data-tooltip-position="left"]:after {
-        right: 100%;
-        border-width: 6px 0 6px 6px;
-        border-left-color: #000;
       }`;
     this.wordSet = new Set(wordArray);
     this.insertCSSOnAllTabs();
     this.addListeners();
+    this.portFromCS = null;
     this.APPLICABLE_PROTOCOLS = ["http:", "https:", "ftp:", "file:"];
     this.CSS = {
       code: CSS
@@ -145,9 +117,7 @@ class PersistentPageModificationEffect {
   }
 
   addListeners() {
-    browser.runtime.onMessage.addListener((msg, sender, sendResponse) => {
-      this.handleMessageFromContent(msg, sender, sendResponse)
-    });
+    browser.runtime.onConnect.addListener((port) => this.connected(port));
   }
 
   /**
@@ -155,18 +125,22 @@ class PersistentPageModificationEffect {
     *   getList  => returns this.wordSet (list of words)
     *   wordUsed => remove a word from this.wordSet
     */
-  handleMessageFromContent(msg, sender, sendResponse) {
-    switch (msg.type) {
-      case "getList":
-        sendResponse(this.wordSet);
-        break;
-      case "wordUsed":
-        // remove word from the list
-        this.wordSet.delete(msg.word);
-        break;
-      default:
-        throw new Error(`Message type not recognized: ${msg}`);
-    }
+  connected(p) {
+    this.portFromCS = p;
+    this.portFromCS.postMessage({type: "backgroundConnected"});
+    this.portFromCS.onMessage.addListener((m) => {
+      switch (m.type) {
+        case "getList":
+          this.portFromCS.postMessage({ type: "getList", data: this.wordSet });
+          break;
+        case "wordUsed":
+          // remove word from the list
+          this.wordSet.delete(m.word);
+          break;
+        default:
+          throw new Error(`Message type not recognized: ${m.type}`);
+        }
+    });
   }
 
   /**
@@ -185,7 +159,7 @@ class PersistentPageModificationEffect {
 
     // Each time a tab is updated, add CSS for that tab.
     browser.tabs.onUpdated.addListener((id, changeInfo, tab) => {
-      if (this.protocolIsApplicable(tab.url)) {
+      if (this.protocolIsApplicable(tab.url) && tab.status === "complete") {
         browser.tabs.insertCSS(id, this.CSS);
       }
     });
