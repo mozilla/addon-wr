@@ -1,5 +1,5 @@
 {
-  "name": "WebExtension-whiterose",
+  "name": "pug-webextension",
   "version": "1.0.0",
   "manifest_version": 2,
   "permissions": [
@@ -8,6 +8,7 @@
     "tabs",
     "webRequest",
     "webRequestBlocking",
+    "https://www.red-wheelbarrow.com/forkids/*",
     "https://www.whatismybrowser.com/detect/*"
   ],
   "background": {

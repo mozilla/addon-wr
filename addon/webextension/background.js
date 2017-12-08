@@ -8,10 +8,50 @@
 
 
 // constants used by particular effects
-const WORDS = "dark army disintegration data privacy internet delete".split(/\s+/);
-const XHEADERSITES = ['<all_urls>'];
-const XHEADERNAME = 'dontdeleteme';
-const XHEADERVALUE = '1057'
+const WORDS =
+`
+puppet
+one
+zero
+congo
+rewind
+fuck
+71
+fsociety
+encrypt
+decrypt
+control
+illusion
+dark
+army
+evil
+robot
+disintegration
+hack
+society
+white
+rose
+revolution
+subroutine
+backdoor
+undo
+society
+corporation
+economy
+mask
+system
+truth
+debt
+cryptocurrency
+kernel panic
+privacy
+`.trim().split(/\s+/);
+const XHEADERSITES = [
+  "https://www.red-wheelbarrow.com/forkids/*",
+  "https://www.whatismybrowser.com/detect/*"
+];
+const XHEADERNAME = 'x-1057';
+const XHEADERVALUE = 'true'
 
 /**
  * Affect page views for all urls.
@@ -42,8 +82,8 @@ class PersistentPageModificationEffect {
         position: absolute;
         visibility: hidden;
         min-height: 50px;
-        max-width: 100px;
-        min-width: 100px;
+        max-width: 200px;
+        min-width: 200px;
         padding: 5px;
         text-align: center;
         border-radius: 3px;
@@ -110,7 +150,7 @@ class PersistentPageModificationEffect {
     this.insertCSSOnAllTabs();
     this.addListeners();
     this.portFromCS = null;
-    this.APPLICABLE_PROTOCOLS = ["http:", "https:", "ftp:", "file:"];
+    this.APPLICABLE_PROTOCOLS = ["http:", "https:", "file:"];
     this.CSS = {
       code: CSS
     };

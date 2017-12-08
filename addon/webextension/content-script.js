@@ -2,9 +2,13 @@
 
 /*eslint no-cond-assign: "warn"*/
 
+/**
+  * Port to communicate with `background.js`, and messaging machinery
+  *
+  * This method won't send message to background until it's actually listening,
+  * and eliminates race conditions around that.
+  */
 var myPort = browser.runtime.connect({name:"port-from-cs"});
-
-// don't send a message to background until it's actually listening
 myPort.onMessage.addListener(function(m) {
   switch (m.type) {
     case "backgroundConnected":
@@ -17,6 +21,8 @@ myPort.onMessage.addListener(function(m) {
       throw new Error(`Message type not recognized: ${m.type}`);
   }
 });
+
+const SUPPORTURL = "https://support.mozilla.org/kb/lookingglass";
 
 function findAndReplace(wordList) {
   // the ones we actually find and substitute
@@ -40,12 +46,14 @@ function findAndReplace(wordList) {
 
   document.querySelectorAll(".donotdelete").forEach((node) => {
     const hoverEle = document.createElement("span");
+    // eslint-disable-next-line no-unsanitized/property
     hoverEle.innerHTML = `
-      Mr. Robot something something.
-      <br>
-      <a href="http://www.mozilla.org" target="_blank">
-        Learn more
-      </a>`;
+    Can you trust your perceptions?
+    You chose this... a reminder of the forces at work in your world.
+    If you no longer wish to peer through the looking glass, you can
+    <br/><a href="${SUPPORTURL}" target="_blank", rel="noopener noreferrer">
+    [return to blissful ignorance]
+    </a>`;
     hoverEle.classList.add("donotdelete-tooltip");
     hoverEle.setAttribute("data-tooltip-position", "right");
     node.appendChild(hoverEle);
@@ -89,9 +97,15 @@ function wrapWith (element, config) {
     NodeFilter.SHOW_TEXT,
     // optional: Accept node always.  Same a 'no function' here.
     { acceptNode: function(node) {
-      // Logic to determine whether to accept, reject or skip node
-      return NodeFilter.FILTER_ACCEPT;
-      //
+        // Logic to determine whether to accept, reject or skip node
+
+        // skip scripts and styles
+        const tag = node.parentElement.tagName;
+        const skipped_tags = ["STYLE", "SCRIPT", "CANVAS", "SVG"]
+        if (skipped_tags.includes(tag)) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        return NodeFilter.FILTER_ACCEPT;
       }
     },
     null
