@@ -46,6 +46,7 @@ function findAndReplace(wordList) {
 
   document.querySelectorAll(".donotdelete").forEach((node) => {
     const hoverEle = document.createElement("span");
+    // eslint-disable-next-line no-unsanitized/property
     hoverEle.innerHTML = `
     Can you trust your perceptions?
     You chose this... a reminder of the forces at work in your world.
