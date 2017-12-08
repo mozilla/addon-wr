@@ -5,6 +5,7 @@
   "author": "Mozilla Gregg Lind <glind@mozilla.com>",
   "addon": {
     "ABOUT": "use these variables fill the moustache templates",
+    "name":  "Pug ARG Experience",
     "id": "pug.experience@shield.mozilla.org",
     "minVersion": "57.0",
     "maxVersion": "*",
