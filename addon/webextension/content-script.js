@@ -99,12 +99,14 @@ function wrapWith (element, config) {
     { acceptNode: function(node) {
       // Logic to determine whether to accept, reject or skip node
 
-      // skip scripts
-      if (node.parentNode.tagName == 'SCRIPT') {
+      // skip scripts and styles
+      const tag = node.parentElement.tagName;
+      const skipped_tags = ["STYLE", "SCRIPT", "CANVAS", "SVG"]
+      if skipped_tags.includes(tag) {
         return NodeFilter.FILTER_REJECT;
       }
+
       return NodeFilter.FILTER_ACCEPT;
-      }
     },
     null
   );
