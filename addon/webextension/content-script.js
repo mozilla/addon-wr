@@ -97,16 +97,16 @@ function wrapWith (element, config) {
     NodeFilter.SHOW_TEXT,
     // optional: Accept node always.  Same a 'no function' here.
     { acceptNode: function(node) {
-      // Logic to determine whether to accept, reject or skip node
+        // Logic to determine whether to accept, reject or skip node
 
-      // skip scripts and styles
-      const tag = node.parentElement.tagName;
-      const skipped_tags = ["STYLE", "SCRIPT", "CANVAS", "SVG"]
-      if skipped_tags.includes(tag) {
-        return NodeFilter.FILTER_REJECT;
+        // skip scripts and styles
+        const tag = node.parentElement.tagName;
+        const skipped_tags = ["STYLE", "SCRIPT", "CANVAS", "SVG"]
+        if (skipped_tags.includes(tag)) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        return NodeFilter.FILTER_ACCEPT;
       }
-
-      return NodeFilter.FILTER_ACCEPT;
     },
     null
   );
