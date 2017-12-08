@@ -34,12 +34,13 @@ function findAndReplace(wordList) {
       wrapTag: 'span',
       wrapClass: 'donotdelete',
       re: combinedRegex,
-      //re: /(dark|life|your)/i
       matchCb: function matchCb (matchObj) {
         const observed = matchObj[0].toLowerCase();
-        seen.add(observed);
+        seen.add(observed); // for debugging
+
+        // Per #22, not doing this after all.
         // tell the background script that word has been used.
-        myPort.postMessage({ type: "wordUsed", word: observed });
+        //myPort.postMessage({ type: "wordUsed", word: observed });
       }
     }
   );
@@ -58,6 +59,16 @@ function findAndReplace(wordList) {
     hoverEle.setAttribute("data-tooltip-position", "right");
     node.appendChild(hoverEle);
   });
+
+  // between 1-5 seconds, flip them back, but keep the over.  see #22
+  const delayToRevert = 1000; // (4*Math.random() + 1)*1000
+  setTimeout(()=>{
+    document.querySelectorAll('.donotdelete').
+      forEach(node=>{
+          //node.classList.add("donotdelete-revert")
+    });
+  },delayToRevert);
+
 
   // For using with debug / and test pages.
   if (document.querySelector('#wanted')) {

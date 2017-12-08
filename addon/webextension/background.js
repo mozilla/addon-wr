@@ -77,10 +77,15 @@ class PersistentPageModificationEffect {
         display: inline-block;
       }
 
+      .donotdelete-revert {
+        transform: ScaleY(1);
+        transition: 1s ease-in;
+      }
+
       .donotdelete-tooltip {
+        visibility: hidden;
         display: inline-block;
         position: absolute;
-        visibility: hidden;
         min-height: 50px;
         max-width: 200px;
         min-width: 200px;
