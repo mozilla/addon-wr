@@ -1,5 +1,5 @@
 {
-  "name": "WebExtension-lookingglass",
+  "name": "pug-webextension",
   "version": "1.0.0",
   "manifest_version": 2,
   "permissions": [

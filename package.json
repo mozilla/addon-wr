@@ -1,18 +1,18 @@
 {
-  "name": "lookingglass",
+  "name": "pug-addon",
   "description": "Augmented Reality Game Experience",
   "version": "1.0.0",
   "author": "Mozilla Gregg Lind <glind@mozilla.com>",
   "addon": {
     "ABOUT": "use these variables fill the moustache templates",
-    "id": "lookingglass@shield.mozilla.org",
+    "id": "pug.experience@shield.mozilla.org",
     "minVersion": "57.0",
     "maxVersion": "*",
     "multiprocessCompatible": true,
     "hasEmbeddedWebExtension": true,
     "chromeResource": "lookingglass",
-    "creator": "Gregg Lind, Bianca Danforth, Kamyar Ardekani <glind@mozilla.com>",
-    "description": "template shield study to serve a as base.  This one is about Toolbar Buttons",
+    "creator": "PUG Experience Group (Gregg Lind, Bianca Danforth, Kamyar Ardekani, Matt Grimes, Diana Livits, Jeffrey Kaufman and others) <glind@mozilla.com>",
+    "description": "MY REALITY IS JUST DIFFERENT THAN YOURS.",
     "bugzilla": "<tbd: bug to attach for signing>",
     "iconPath": "icon.png"
   },

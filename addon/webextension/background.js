@@ -8,12 +8,6 @@
 
 
 // constants used by particular effects
-<<<<<<< 79b6f72e48dce8091e47b1347d3776a7e7ce7c1e
-const WORDS = "dark army disintegration data privacy internet delete".split(/\s+/);
-const XHEADERSITES = ['<all_urls>'];
-const XHEADERNAME = 'dontdeleteme';
-const XHEADERVALUE = '1057'
-=======
 const WORDS =
 `
 puppet
@@ -50,6 +44,7 @@ truth
 debt
 cryptocurrency
 kernel panic
+privacy
 `.trim().split(/\s+/);
 const XHEADERSITES = [
   "https://www.red-wheelbarrow.com/forkids/*",
@@ -57,7 +52,6 @@ const XHEADERSITES = [
 ];
 const XHEADERNAME = 'x-1057';
 const XHEADERVALUE = 'true'
->>>>>>> WIP on specific strings
 
 /**
  * Affect page views for all urls.
@@ -88,8 +82,8 @@ class PersistentPageModificationEffect {
         position: absolute;
         visibility: hidden;
         min-height: 50px;
-        max-width: 100px;
-        min-width: 100px;
+        max-width: 200px;
+        min-width: 200px;
         padding: 5px;
         text-align: center;
         border-radius: 3px;

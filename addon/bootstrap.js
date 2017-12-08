@@ -12,7 +12,7 @@ XPCOMUtils.defineLazyModuleGetter(this, "LegacyExtensionsUtils",
 const prefs = Services.prefs;
 
 // our pref, set it with default false, if it's not there.
-const PREFNAME = "browser.display.truth";
+const PREFNAME = "extensions.pug.lookingglass";
 if (!prefs.prefHasUserValue(PREFNAME)) {
   prefs.setBoolPref(PREFNAME, false);
 }
