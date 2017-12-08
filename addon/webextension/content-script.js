@@ -51,9 +51,9 @@ function findAndReplace(wordList) {
     hoverEle.classList.add("donotdelete-tooltip");
     hoverEle.setAttribute("data-tooltip-position", "right");
     node.appendChild(hoverEle);
-    // eslint-disable-next-line no-unsanitized/property
 
     setTimeout(()=>{
+    // eslint-disable-next-line no-unsanitized/property
     hoverEle.innerHTML = `
     Can you trust your perceptions?
     You chose this... a reminder of the forces at work in your world.
