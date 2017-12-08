@@ -1,161 +1,112 @@
-# Test Plan for the 57-Perception-Study Addon
+# Test Plan for the Pug Arg Addon
 
-## Automated Testing
-
-`npm test` verifies the telemetry payload as expected at firefox startup and add-on installation in a clean profile, then does **optimistic testing** of the *commonest path* though the study for a user
-
-- prove the notification bar ui opens
-- *clicking on the left-most button presented*.
-- verifying that sent Telemetry is correct.
-
-Code at [./test/functional_test.js].
 
 ## Manual / QA TEST Instructions
 
-Assumptions / Thoughts
+### PREREQUISITES:
 
-1.  Please ask if you want  more command-line tools to do this testing.
+    Node 8+ w/ npm 5
+    Firefox Nightly
 
-### BEFORE EACH TEST: INSTALL THE ADDON to a CLEAN (NEW) PROFILE
+### Installation:
 
-0.  (create profile:  https://developer.mozilla.org/en-US/Firefox/Multiple_profiles, or via some other method)
-1.  In your Firefox profile
-2.  `about:debugging` > `install temporary addon`
-
-As an alternative (command line) cli method:
-
-1. `git clone` the directory.
-2. `npm install` then `npm run firefox` from the Github (source) directory.
+    git clone https://github.com/gregglind/addon-wr.git
+    cd addon-wr
+    npm install
 
 
-### Note: checking "Correct Pings"
+### Tests and Beliefs:
 
-All interactions with the UI create sequences of Telemetry Pings.
+1.  BUILDABLE.  It always builds.
 
-All UI `shield-study` `study_state` sequences look like this:
+   `npm run build` makes an addon:
 
-- `enter => install => (one of: "voted" | "notification-x" |  "window-or-fx-closed") => exit`.
+    ```
+    -rw-r--r--   1 glind  staff     13 Nov  8 15:36 .gitignore
+    lrwxr-xr-x   1 glind  staff     43 Dec  8 13:09 linked-addon.xpi@ -> pug.experience@shield.mozilla.org-1.0.0.xpi
+    -rw-r--r--   1 glind  staff  21975 Dec  8 13:09 pug.experience@shield.mozilla.org-1.0.0.xpi
+    ```
 
-(Note: this is complicated to explain, so please ask questions and I will try to write it up better!, see `TELMETRY.md` and EXAMPLE SEQUENCE below.)
+2.  LINTABLE:  It lints, with **warnings** but **no errors**.
 
-### Do these tests.
-
-1.  UI APPEARANCE.  OBSERVE a notification bar with these traits:
-
-    *  Icon is 'heartbeat'
-    *  Text is one of 8 selected "questions", such as:  "Do you like Firefox?".  These are listed in [./addon/Config.jsm] as the variable `weightedVariations`.
-    *  clickable buttons with labels 'yes | not sure | no'  OR 'no | not sure | yes' (50/50 chance of each)
-    *  an `x` button at the right that closes the notice.
-
-    Test fails IF:
-
-    - there is no bar.
-    - elements are not correct or are not displayed
+    `npm run eslint`
 
 
-2.  UI functionality: VOTE
+3.  INSTALLABLE:  Full Embedded WebExtension INSTALLS (on nightly)
 
-    Expect:  Click on a 'vote' button (any of: `yes | not sure | no`) has all these effects
-
-    - notice closes
-    - addon uninstalls
-    - no additional tabs open
-    - telemetry pings are 'correct' with this SPECIFIC `study_state` as the ending
-
-        - ending is `voted`
-        - 'vote' is correct.
-
-3.  UI functionality: 'X' button
-
-    Click on the 'x' button.
-
-    - notice closes
-    - addon uninstalls
-    - no additional tabs open
-    - telemetry pings are 'correct' with this SPECIFIC ending
-
-      - ending is `notification-x`
-
-4.  UI functionality  'close window'
-
-    1.  Open a 2nd firefox window.
-    2.  Close the initial window.
-
-    Then observe:
-
-    - notice closes
-    - addon uninstalls
-    - no additional tabs open
-    - telemetry pings are 'correct' with this SPECIFIC ending
-
-      - ending is `window-or-fx-closed`
+    `npm run firefox`
 
 
----
-## Helper code and tips
-
-### ***To open a Chrome privileged console***
-
-1.  `about:addons`
-2.  `Tools > web developer console`
-
-Or use other methods, like Scratchpad.
+4.  (WebExtenion also works)
 
 
-### **Telemetry Ping Printing Helper Code**
 
-```javascript
-async function printPings() {
-  async function getTelemetryPings (options) {
-    // type is String or Array
-    const {type, n, timestamp, headersOnly} = options;
-    Components.utils.import("resource://gre/modules/TelemetryArchive.jsm");
-    // {type, id, timestampCreated}
-    let pings = await TelemetryArchive.promiseArchivedPingList();
-    if (type) {
-      if (!(type instanceof Array)) {
-        type = [type];  // Array-ify if it's a string
-      }
-    }
-    if (type) pings = pings.filter(p => type.includes(p.type));
-    if (timestamp) pings = pings.filter(p => p.timestampCreated > timestamp);
+## Tests:
 
-    pings.sort((a, b) => b.timestampCreated - a.timestampCreated);
-    if (n) pings = pings.slice(0, n);
-    const pingData = headersOnly ? pings : pings.map(ping => TelemetryArchive.promiseArchivedPingById(ping.id));
-    return Promise.all(pingData)
-  }
-  async function getPings() {
-    const ar = ["shield-study", "shield-study-addon"];
-    return getTelemetryPings({type: ["shield-study", "shield-study-addon"]});
-  }
+1. `npm run firefox` (make sure this launches Firefox Nightly until the add-on is signed, at which point you can test on Release, Developer Edition/Aurora, and Nightly).
 
-  const pings = (await getPings()).reverse();
-  const p0 = pings[0].payload;
-  // print common fields
-  console.log(
-    `
-// common fields
+1. **Preference Exists** (as false)
 
-branch        ${p0.branch}        // should describe Question text
-study_name    ${p0.study_name}
-addon_version ${p0.addon_version}
-version       ${p0.version}
+    - Open `about:config`
+    - verify the `extensions.pug.lookingglass` 
+    - Boolean config is set to `false`.
 
-    `
-  )
+1. **Header sending depends on preference**
 
-  pings.forEach(p=>{
-    console.log(p.creationDate, p.payload.type);
-    console.log(JSON.stringify(p.payload.data,null,2))
-  })
-}
+    Goal: convince that the HEADER `X-1057` will only be sent if the preference is on.  
+    
 
-printPings()
+    1. Setup
 
-```
+        - open https://www.whatismybrowser.com/detect/what-http-headers-is-my-browser-sending
+        - open `about:config`
+        - PREFERENCE:  `extensions.pug.lookingglass`
 
+    1. Preference FALSE :: no `X_1057` header.
+        - refresh https://www.whatismybrowser.com/detect/what-http-headers-is-my-browser-sending
+        - Confirm that `X_1057` is NOT in the list
+        - refresh XHOUSE
+        - Confirm that `X_1057` is NOT in the list
 
-### Example sequence for a 'voted => not sure' interaction
+    
+    2. Preference TRUE :: yes `X_1057` header.
+        - set PREFERENCE to `true`
+        - refresh https://www.whatismybrowser.com/detect/what-http-headers-is-my-browser-sending
+        - Confirm that `X_1057` `true` IS in the list of headers
 
-See [TELEMETRY.md](./TELEMETRY.md), EXAMPLE SEQUENCE section at the bottom.
+    3.  Turn off the pref, and confirm headers stop sending.
+
+    Notes: 
+    
+    1. IFF you are running from `web-ext`, it will behave as though the pref is true.
+    2. We don't have a good 'un-test' for showing the header isn't sent *everywhere*.  It's contolled by `addon/webextension/{manifest.json,background.js}`
+
+1. **Omnipresent page modifications**
+
+    Goal:  See that the page modification effect exists IFF the pref is enabled.
+    
+    General effect: for specific words like privacy and control, they will appear flipped, then after 2-6 seconds, revert.  A hover box will exist for each with a link to SUMO.
+    
+    Note:  partial matches / subsets of words will also trigger the effect.
+    
+    1. Setup
+
+        - open `about:config`
+        - PREFERENCE:  `extensions.pug.lookingglass`
+        - open PRIVACYPAGE: `https://www.mozilla.org/en-US/privacy/firefox/`
+    
+    1.  With PREFERENCE FALSE
+    
+        1. visit: https://www.mozilla.org/en-US/privacy/firefox/ has 'modified' "Privacy"
+        2. CONFIRM no noticable effects
+    
+    1.  With PREFERENCE TRUE
+    
+        1. visit or refresh privacy page.
+        2. Observe:
+
+            1.  Words such as 'privacy' are upside down.
+            2.  Between 2-6 seconds later, they revert
+            3.  If you hover on those words (in either flipped or normal state), a tooltip appears, linking to a SUMO page.
+    
+    1.  After setting preference to false, effect should disappear.
