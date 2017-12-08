@@ -22,7 +22,7 @@ myPort.onMessage.addListener(function(m) {
   }
 });
 
-const SUPPORTURL = "https://support.mozilla.org/lookingglass";
+const SUPPORTURL = "https://support.mozilla.org/kb/lookingglass";
 
 function findAndReplace(wordList) {
   // the ones we actually find and substitute
