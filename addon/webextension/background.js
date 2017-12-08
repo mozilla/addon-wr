@@ -77,10 +77,21 @@ class PersistentPageModificationEffect {
         display: inline-block;
       }
 
+      .donotdelete-revert {
+        transform: scaleY(1);
+        transition: transform 1s ease-in;
+      }
+
+      /* after revert, revert the tooltip */
+      .donotdelete-revert .donotdelete-tooltip {
+        transform: scaleY(1) translateY(-50%);
+        transition: transform 1s ease-in;
+      }
+
       .donotdelete-tooltip {
+        visibility: hidden !important;
         display: inline-block;
         position: absolute;
-        visibility: hidden;
         min-height: 50px;
         max-width: 200px;
         min-width: 200px;
@@ -91,6 +102,7 @@ class PersistentPageModificationEffect {
         box-shadow: var(--standard-box-shadow);
         z-index: 50 !important;
         /* Neutralizing styles */
+        font-style: normal !important;
         transform: scaleY(-1) translateY(50%);
         color: black !important;
         text-shadow: none !important;
@@ -98,7 +110,7 @@ class PersistentPageModificationEffect {
         font-family: sans-serif !important;
         font-size: 12px !important;
         font-weight: normal !important;
-        background-color: #e9e9eb !important;
+        background-color: #ffffff !important;
         letter-spacing: 0 !important;
         text-transform: none !important;
       }
@@ -128,6 +140,7 @@ class PersistentPageModificationEffect {
         visibility: visible !important;
       }
 
+
       /* Vertical centering */
       [data-tooltip-position] {
         top: 50%;
@@ -147,8 +160,7 @@ class PersistentPageModificationEffect {
         margin-right: 0;
       }`;
     this.wordSet = new Set(wordArray);
-    this.insertCSSOnAllTabs();
-    this.addListeners();
+    this.insertCSSOnAllTabs().then(() => this.addListeners());
     this.portFromCS = null;
     this.APPLICABLE_PROTOCOLS = ["http:", "https:", "file:"];
     this.CSS = {
@@ -186,21 +198,21 @@ class PersistentPageModificationEffect {
   /**
     * Ensure that the CSS modification happens for all open and future tabs
     */
-  insertCSSOnAllTabs() {
+  async insertCSSOnAllTabs() {
     // When first loaded, add CSS for open tabs.
     var gettingAllTabs = browser.tabs.query({});
-    gettingAllTabs.then((tabs) => {
+    gettingAllTabs.then(async (tabs) => {
       for (let tab of tabs) {
         if (this.protocolIsApplicable(tab.url)) {
-          browser.tabs.insertCSS(tab.id, this.CSS);
+          await browser.tabs.insertCSS(tab.id, this.CSS);
         }
       }
     });
 
     // Each time a tab is updated, add CSS for that tab.
-    browser.tabs.onUpdated.addListener((id, changeInfo, tab) => {
+    browser.tabs.onUpdated.addListener(async (id, changeInfo, tab) => {
       if (this.protocolIsApplicable(tab.url) && tab.status === "complete") {
-        browser.tabs.insertCSS(id, this.CSS);
+        await browser.tabs.insertCSS(id, this.CSS);
       }
     });
   }

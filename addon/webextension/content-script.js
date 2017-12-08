@@ -34,30 +34,45 @@ function findAndReplace(wordList) {
       wrapTag: 'span',
       wrapClass: 'donotdelete',
       re: combinedRegex,
-      //re: /(dark|life|your)/i
       matchCb: function matchCb (matchObj) {
         const observed = matchObj[0].toLowerCase();
-        seen.add(observed);
+        seen.add(observed); // for debugging
+
+        // Per #22, not doing this after all.
         // tell the background script that word has been used.
-        myPort.postMessage({ type: "wordUsed", word: observed });
+        //myPort.postMessage({ type: "wordUsed", word: observed });
       }
     }
   );
 
+
   document.querySelectorAll(".donotdelete").forEach((node) => {
     const hoverEle = document.createElement("span");
+    hoverEle.classList.add("donotdelete-tooltip");
+    hoverEle.setAttribute("data-tooltip-position", "right");
+    node.appendChild(hoverEle);
+
+    setTimeout(()=>{
     // eslint-disable-next-line no-unsanitized/property
     hoverEle.innerHTML = `
     Can you trust your perceptions?
     You chose this... a reminder of the forces at work in your world.
     If you no longer wish to peer through the looking glass, you can
-    <br/><a href="${SUPPORTURL}" target="_blank", rel="noopener noreferrer">
-    [return to blissful ignorance]
-    </a>`;
-    hoverEle.classList.add("donotdelete-tooltip");
-    hoverEle.setAttribute("data-tooltip-position", "right");
-    node.appendChild(hoverEle);
+    <br/><a href="${SUPPORTURL}" target="_blank" rel="noopener noreferrer">return to blissful ignorance</a>`;
+    },300);
+
   });
+
+  // between 1-5 seconds, flip them back, but keep the over.  see #22
+  const delayToRevert = (4*Math.random() + 2)*1000;
+  setTimeout(()=>{
+    document.querySelectorAll('.donotdelete').
+      forEach(node=>{
+          node.classList.add("donotdelete-revert");
+          setTimeout(()=>node.removeChild(node.lastChild),5000);
+    });
+  },delayToRevert);
+
 
   // For using with debug / and test pages.
   if (document.querySelector('#wanted')) {
