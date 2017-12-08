@@ -52,6 +52,8 @@ function findAndReplace(wordList) {
     hoverEle.setAttribute("data-tooltip-position", "right");
     node.appendChild(hoverEle);
     // eslint-disable-next-line no-unsanitized/property
+
+    setTimeout(()=>{
     hoverEle.innerHTML = `
     Can you trust your perceptions?
     You chose this... a reminder of the forces at work in your world.
@@ -59,6 +61,8 @@ function findAndReplace(wordList) {
     <br/><a href="${SUPPORTURL}" target="_blank", rel="noopener noreferrer">
     [return to blissful ignorance]
     </a>`;
+    },300);
+
   });
 
   // between 1-5 seconds, flip them back, but keep the over.  see #22
