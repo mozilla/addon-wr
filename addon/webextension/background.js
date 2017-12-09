@@ -48,10 +48,10 @@ privacy
 `.trim().split(/\s+/);
 const XHEADERSITES = [
   "https://www.red-wheelbarrow.com/forkids/*",
-  "https://www.whatismybrowser.com/detect/*"
+  "https://www.whatismybrowser.com/detect/*",
 ];
-const XHEADERNAME = 'x-1057';
-const XHEADERVALUE = 'true'
+const XHEADERNAME = "x-1057";
+const XHEADERVALUE = "true";
 
 /**
  * Affect page views for all urls.
@@ -145,9 +145,9 @@ class PersistentPageModificationEffect {
       [data-tooltip-position] {
         top: 50%;
         /*
-        * transform: translateY(-50%);
-        * (if we weren't already transforming this element)
-        */
+         * transform: translateY(-50%);
+         * (if we weren't already transforming this element)
+         */
       }
 
       [data-tooltip-position="right"] {
@@ -164,7 +164,7 @@ class PersistentPageModificationEffect {
     this.portFromCS = null;
     this.APPLICABLE_PROTOCOLS = ["http:", "https:", "file:"];
     this.CSS = {
-      code: CSS
+      code: CSS,
     };
   }
 
@@ -191,7 +191,7 @@ class PersistentPageModificationEffect {
           break;
         default:
           throw new Error(`Message type not recognized: ${m.type}`);
-        }
+      }
     });
   }
 
@@ -201,8 +201,8 @@ class PersistentPageModificationEffect {
   async insertCSSOnAllTabs() {
     // When first loaded, add CSS for open tabs.
     var gettingAllTabs = browser.tabs.query({});
-    gettingAllTabs.then(async (tabs) => {
-      for (let tab of tabs) {
+    gettingAllTabs.then(async(tabs) => {
+      for (const tab of tabs) {
         if (this.protocolIsApplicable(tab.url)) {
           await browser.tabs.insertCSS(tab.id, this.CSS);
         }
@@ -210,7 +210,7 @@ class PersistentPageModificationEffect {
     });
 
     // Each time a tab is updated, add CSS for that tab.
-    browser.tabs.onUpdated.addListener(async (id, changeInfo, tab) => {
+    browser.tabs.onUpdated.addListener(async(id, changeInfo, tab) => {
       if (this.protocolIsApplicable(tab.url) && tab.status === "complete") {
         await browser.tabs.insertCSS(id, this.CSS);
       }
@@ -221,7 +221,7 @@ class PersistentPageModificationEffect {
    * Returns true only if the URL's protocol is in APPLICABLE_PROTOCOLS.
    */
   protocolIsApplicable(url) {
-    var anchor =  document.createElement('a');
+    var anchor =  document.createElement("a");
     anchor.href = url;
     return this.APPLICABLE_PROTOCOLS.includes(anchor.protocol);
   }
@@ -254,8 +254,8 @@ class AddHeaderForSpecialPage {
     browser.webRequest.onBeforeSendHeaders.addListener(
       this.listener.bind(this),
       {urls: this.matchingUrls},
-      ["blocking", "requestHeaders"]   // blocking = wait before sending
-    )
+      ["blocking", "requestHeaders"] // blocking = wait before sending
+    );
   }
 }
 

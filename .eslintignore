@@ -1,2 +1,5 @@
+!.eslintrc.js
 addon/StudyUtils.jsm
 addon/webextension/vendor/*
+dist
+test

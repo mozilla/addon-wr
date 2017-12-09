@@ -76,7 +76,7 @@ module.exports.promiseSetupDriver = async() => {
     .setFirefoxOptions(options);
 
   const binaryLocation = await promiseActualBinary(process.env.FIREFOX_BINARY || "nightly");
-  //console.log(binaryLocation);
+  // console.log(binaryLocation);
   await options.setBinary(new firefox.Binary(binaryLocation));
   const driver = await builder.build();
   // Firefox will be started up by now
@@ -179,7 +179,7 @@ module.exports.getTelemetryPings = async(driver, options) => {
     let pings = await TelemetryArchive.promiseArchivedPingList();
     if (type) {
       if (!(type instanceof Array)) {
-        type = [type];  // Array-ify if it's a string
+        type = [type]; // Array-ify if it's a string
       }
     }
     if (type) pings = pings.filter(p => type.includes(p.type));
