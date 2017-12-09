@@ -17,7 +17,6 @@ module.exports = {
   env: {
     es6: true,
     node: true,
-    webextensions: true,
   },
 
   extends: [

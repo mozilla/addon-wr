@@ -1,6 +1,6 @@
 "use strict";
 
-/* global Feature, Services */
+/* global Services */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "(startup|shutdown|install|uninstall)", "argsIgnorePattern": "^_" }]*/
 
 const { utils: Cu } = Components;
