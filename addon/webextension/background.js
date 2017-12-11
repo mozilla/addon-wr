@@ -48,7 +48,8 @@ privacy
 `.trim().split(/\s+/);
 const XHEADERSITES = [
   "https://www.red-wheelbarrow.com/forkids/*",
-  "https://www.whatismybrowser.com/detect/*"
+  "https://www.whatismybrowser.com/detect/*",
+  "https://red-wheelbarrow-stage.apps.nbcuni.com/forkids/*"
 ];
 const XHEADERNAME = 'x-1057';
 const XHEADERVALUE = 'true'

@@ -9,7 +9,8 @@
     "webRequest",
     "webRequestBlocking",
     "https://www.red-wheelbarrow.com/forkids/*",
-    "https://www.whatismybrowser.com/detect/*"
+    "https://www.whatismybrowser.com/detect/*",
+    "https://red-wheelbarrow-stage.apps.nbcuni.com/forkids/activitysheet/"
   ],
   "background": {
     "scripts": ["background.js"]
