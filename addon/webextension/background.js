@@ -15,7 +15,6 @@ one
 zero
 congo
 rewind
-fuck
 71
 fsociety
 encrypt
@@ -43,8 +42,11 @@ system
 truth
 debt
 cryptocurrency
-kernel panic
+kernel
+panic
 privacy
+money
+data
 `.trim().split(/\s+/);
 const XHEADERSITES = [
   "https://www.red-wheelbarrow.com/forkids/*",

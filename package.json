@@ -1,11 +1,11 @@
 {
   "name": "pug-addon",
   "description": "Augmented Reality Game Experience",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Mozilla Gregg Lind <glind@mozilla.com>",
   "addon": {
     "ABOUT": "use these variables fill the moustache templates",
-    "name":  "Pug ARG Experience",
+    "name":  "Looking Glass",
     "id": "pug.experience@shield.mozilla.org",
     "minVersion": "57.0",
     "maxVersion": "*",
