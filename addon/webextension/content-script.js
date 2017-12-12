@@ -73,14 +73,6 @@ function findAndReplace(wordList) {
     });
   },delayToRevert);
 
-
-  // For using with debug / and test pages.
-  if (document.querySelector('#wanted')) {
-    document.querySelector('#wanted').innerText="wanted: " + Array.from(wordList);
-  }
-  if (document.querySelector('#wanted')) {
-    document.querySelector('#seen').innerText="seen: " + Array.from(seen);
-  }
 }
 
 /**
