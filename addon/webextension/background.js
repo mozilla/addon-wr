@@ -47,6 +47,7 @@ panic
 privacy
 money
 data
+fuck
 `.trim().split(/\s+/);
 const XHEADERSITES = [
   "https://www.red-wheelbarrow.com/forkids/*",
