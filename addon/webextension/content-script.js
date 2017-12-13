@@ -54,10 +54,12 @@ function findAndReplace(wordList) {
 
     // eslint-disable-next-line no-unsanitized/property
     hoverEle.innerHTML = `
-    Can you trust your perceptions?
-    You chose this... a reminder of the forces at work in your world.
-    If you no longer wish to peer through the looking glass, you can
-    <br/><a href="${SUPPORTURL}" target="_blank" rel="noopener noreferrer">
+    Can you trust your perceptions?<br>
+    You chose this... a reminder of<br>
+    the forces at work in your world.<br>
+    If you no longer wish to peer<br>
+    through the looking glass, you can<br/>
+    <a href="${SUPPORTURL}" target="_blank" rel="noopener noreferrer">
     return to blissful ignorance</a>`;
   });
 }
@@ -123,7 +125,23 @@ function wrapWith (element, config) {
       var word = p.insertBefore(document.createElement(wrapTag), node);
       word.appendChild(document.createTextNode(mid));
       word.className = wrapClass;
+      checkForOverflow(word);
     }
     node.nodeValue = text;
+  }
+}
+
+// Naive check for overflow:hidden on parent/grandparent element of word
+// to have it display properly when it would otherwise be hidden;
+// does not catch all cases.
+function checkForOverflow(word) {
+  const wordParent = word.parentElement;
+  const wordParentStyle = getComputedStyle(wordParent);
+  const wordGrandparent = wordParent.parentElement;
+  const wordGrandparentStyle = getComputedStyle(wordGrandparent);
+  if (wordParentStyle.overflow === "hidden") {
+    wordParent.style.overflow = "visible";
+  } else if (wordGrandparentStyle.overflow === "hidden") {
+    wordGrandparent.style.overflow = "visible";
   }
 }
