@@ -11,7 +11,7 @@
 var myPort = browser.runtime.connect({name:"port-from-cs"});
 myPort.onMessage.addListener(function(m) {
   switch (m.type) {
-    case "backgroundConnected":
+    case "cssLoaded":
       myPort.postMessage({ type: "getList" });
       break;
     case "getList":
@@ -52,27 +52,14 @@ function findAndReplace(wordList) {
     hoverEle.setAttribute("data-tooltip-position", "right");
     node.appendChild(hoverEle);
 
-    setTimeout(()=>{
     // eslint-disable-next-line no-unsanitized/property
     hoverEle.innerHTML = `
     Can you trust your perceptions?
     You chose this... a reminder of the forces at work in your world.
     If you no longer wish to peer through the looking glass, you can
-    <br/><a href="${SUPPORTURL}" target="_blank" rel="noopener noreferrer">return to blissful ignorance</a>`;
-    },300);
-
+    <br/><a href="${SUPPORTURL}" target="_blank" rel="noopener noreferrer">
+    return to blissful ignorance</a>`;
   });
-
-  // between 1-5 seconds, flip them back, but keep the over.  see #22
-  const delayToRevert = (4*Math.random() + 2)*1000;
-  setTimeout(()=>{
-    document.querySelectorAll('.donotdelete').
-      forEach(node=>{
-          node.classList.add("donotdelete-revert");
-          setTimeout(()=>node.removeChild(node.lastChild),5000);
-    });
-  },delayToRevert);
-
 }
 
 /**

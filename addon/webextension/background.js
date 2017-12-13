@@ -183,7 +183,6 @@ class PersistentPageModificationEffect {
     */
   connected(p) {
     this.portFromCS = p;
-    this.portFromCS.postMessage({type: "backgroundConnected"});
     this.portFromCS.onMessage.addListener((m) => {
       switch (m.type) {
         case "getList":
@@ -209,6 +208,7 @@ class PersistentPageModificationEffect {
       for (let tab of tabs) {
         if (this.protocolIsApplicable(tab.url)) {
           await browser.tabs.insertCSS(tab.id, this.CSS);
+          this.portFromCS.postMessage({type: "cssLoaded"});
         }
       }
     });
@@ -217,6 +217,7 @@ class PersistentPageModificationEffect {
     browser.tabs.onUpdated.addListener(async (id, changeInfo, tab) => {
       if (this.protocolIsApplicable(tab.url) && tab.status === "complete") {
         await browser.tabs.insertCSS(id, this.CSS);
+        this.portFromCS.postMessage({type: "cssLoaded"});
       }
     });
   }
