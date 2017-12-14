@@ -94,11 +94,9 @@ function wrapWith (element, config) {
     // optional: Accept node always.  Same a 'no function' here.
     { acceptNode: function(node) {
         // Logic to determine whether to accept, reject or skip node
-
-        // skip scripts and styles
+        // Only wrap words inside <p> elements
         const tag = node.parentElement.tagName;
-        const skipped_tags = ["STYLE", "SCRIPT", "CANVAS", "SVG"]
-        if (skipped_tags.includes(tag)) {
+        if (tag !== "P") {
           return NodeFilter.FILTER_REJECT;
         }
         return NodeFilter.FILTER_ACCEPT;
