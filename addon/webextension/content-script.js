@@ -61,7 +61,17 @@ function findAndReplace(wordList) {
     through the looking glass, you can<br/>
     <a href="${SUPPORTURL}" target="_blank" rel="noopener noreferrer">
     return to blissful ignorance</a>`;
+
   });
+
+  document.querySelectorAll('.donotdelete').
+    forEach(function (node) {
+      const delayToRevert = (10*Math.random() + 1)*1000;
+      setTimeout(function () {
+        node.classList.add("donotdelete-revert");
+        setTimeout(()=>node.removeChild(node.lastChild),15000);
+      }, delayToRevert);
+    });
 }
 
 /**
