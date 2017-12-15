@@ -14,7 +14,7 @@
     "hasEmbeddedWebExtension": true,
     "chromeResource": "lookingglass",
     "creator": "PUG Experience Group (Gregg Lind, Bianca Danforth, Kamyar Ardekani, Matt Grimes, Diana Livits, Jeffrey Kaufman and others) <glind@mozilla.com>",
-    "description": "MY REALITY IS JUST DIFFERENT THAN YOURS.\n\nLooking Glass is a collaboration between Mozilla and the makers of Mr. Robot to provide a shared world experience. Are you a fan of Mr. Robot? If so, join the hunt for answers!\n\nParticipating in this shared world experience requires explicit user opt in. If you are not actively participating in the ARG (Augmented Reality Game) no modifications will be made to Firefox.\n\nhttps://support.mozilla.org/kb/lookingglass",
+    "description": "MY REALITY IS JUST DIFFERENT THAN YOURS.\n\nLooking Glass is a collaboration between Mozilla and Comcast to provide a shared world experience. Are you a fan of Mr. Robot? If so, join the hunt for answers!\n\nParticipating in this shared world experience requires explicit user opt in. If you are not actively participating in the ARG (Augmented Reality Game) no modifications will be made to Firefox.\n\nhttps://support.mozilla.org/kb/lookingglass",
     "bugzilla": "<tbd: bug to attach for signing>",
     "iconPath": "icon.png"
   },
