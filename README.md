@@ -34,7 +34,7 @@ Note: `linked-addon.xpi` is a symbolic link to the extension's true XPI, which i
 
 ## User Experience / Functionality
 
-See [./testplan.md](./testplan.md)
+See [./TESTPLAN.md](./TESTPLAN.md)
 
 ## Interesting files / dirs
 
