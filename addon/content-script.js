@@ -1,6 +1,6 @@
 "use strict";
 
-/*eslint no-cond-assign: "warn"*/
+/* eslint no-cond-assign: "warn"*/
 
 /**
   * Port to communicate with `background.js`, and messaging machinery
@@ -8,7 +8,7 @@
   * This method won't send message to background until it's actually listening,
   * and eliminates race conditions around that.
   */
-var myPort = browser.runtime.connect({name:"port-from-cs"});
+var myPort = browser.runtime.connect({name: "port-from-cs"});
 myPort.onMessage.addListener(function(m) {
   switch (m.type) {
     case "cssLoaded":
@@ -26,22 +26,22 @@ const SUPPORTURL = "https://support.mozilla.org/kb/lookingglass";
 
 function findAndReplace(wordList) {
   // the ones we actually find and substitute
-  let seen = new Set();
-  const combinedRegex = new RegExp('(' + Array.from(wordList).join('|') + ')', 'i');
+  const seen = new Set();
+  const combinedRegex = new RegExp("(" + Array.from(wordList).join("|") + ")", "i");
   wrapWith(
     document.body,
     {
-      wrapTag: 'span',
-      wrapClass: 'donotdelete',
+      wrapTag: "span",
+      wrapClass: "donotdelete",
       re: combinedRegex,
-      matchCb: function matchCb (matchObj) {
+      matchCb: function matchCb(matchObj) {
         const observed = matchObj[0].toLowerCase();
         seen.add(observed); // for debugging
 
         // Per #22, not doing this after all.
         // tell the background script that word has been used.
-        //myPort.postMessage({ type: "wordUsed", word: observed });
-      }
+        // myPort.postMessage({ type: "wordUsed", word: observed });
+      },
     }
   );
 
@@ -64,12 +64,12 @@ function findAndReplace(wordList) {
 
   });
 
-  document.querySelectorAll('.donotdelete').
-    forEach(function (node) {
-      const delayToRevert = (10*Math.random() + 1)*1000;
-      setTimeout(function () {
+  document.querySelectorAll(".donotdelete").
+    forEach(function(node) {
+      const delayToRevert = (10 * Math.random() + 1) * 1000;
+      setTimeout(function() {
         node.classList.add("donotdelete-revert");
-        setTimeout(()=>node.removeChild(node.lastChild),15000);
+        setTimeout(() => node.removeChild(node.lastChild), 15000);
       }, delayToRevert);
     });
 }
@@ -89,28 +89,28 @@ function findAndReplace(wordList) {
  * - https://developer.mozilla.org/en-US/docs/Web/API/NodeFilter
  *
  */
-function wrapWith (element, config) {
+function wrapWith(element, config) {
   const {
     wrapTag,
     wrapClass,
     re,
-    matchCb
+    matchCb,
   } = config;
-  let nodes = document.createTreeWalker(
+  const nodes = document.createTreeWalker(
     // starting element
     element,
     // NodeFilter.SHOW_TEXT:  Only consider nodes that are text nodes (nodeType 3)
     NodeFilter.SHOW_TEXT,
     // optional: Accept node always.  Same a 'no function' here.
-    { acceptNode: function(node) {
-        // Logic to determine whether to accept, reject or skip node
-        // Only wrap words inside <p> elements
-        const tag = node.parentElement.tagName;
-        if (tag !== "P") {
-          return NodeFilter.FILTER_REJECT;
-        }
-        return NodeFilter.FILTER_ACCEPT;
+    { acceptNode(node) {
+      // Logic to determine whether to accept, reject or skip node
+      // Only wrap words inside <p> elements
+      const tag = node.parentElement.tagName;
+      if (tag !== "P") {
+        return NodeFilter.FILTER_REJECT;
       }
+      return NodeFilter.FILTER_ACCEPT;
+    },
     },
     null
   );
@@ -120,13 +120,13 @@ function wrapWith (element, config) {
     var p = node.parentNode;
     var text = node.nodeValue;
     var m;
-    while(m = text.match(re)) {
+    while (m = text.match(re)) {
       // callback on every match
       matchCb(m);
       var front, mid, end;
-      front = text.slice(0,m.index);    // might be empty ''
+      front = text.slice(0, m.index); // might be empty ''
       mid = m[0];
-      end = text.slice(m.index + mid.length);  // might be empty ''
+      end = text.slice(m.index + mid.length); // might be empty ''
       text = end;
       // todo this line is dangerous
       p.insertBefore(document.createTextNode(front), node);

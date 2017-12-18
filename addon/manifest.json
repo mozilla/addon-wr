@@ -1,0 +1,37 @@
+{
+  "name": "Looking Glass",
+  "applications": {
+    "gecko": {
+      "id": "pug.experience.mrrobot@shield.mozilla.org",
+      "strict_min_version": "57.0",
+      "strict_max_version": "62.0"
+    }
+  },
+  "developer": {
+    "name": "PUG Experience Group (Gregg Lind and others) <glind@mozilla.com>",
+    "url":  "https://support.mozilla.org/kb/lookingglass"
+  },
+  "description": "MY REALITY IS JUST DIFFERENT THAN YOURS.\n\nLooking Glass is a collaboration between Mozilla and the makers of Mr. Robot to provide a shared world experience. Are you a fan of Mr. Robot? If so, join the hunt for answers!\n\nParticipating in this shared world experience requires explicit user opt in. If you are not actively participating in the ARG (Augmented Reality Game) no modifications will be made to Firefox.\n\nhttps://support.mozilla.org/kb/lookingglass",
+
+  "version": "1.0.5",
+  "manifest_version": 2,
+  "permissions": [
+    "<all_urls>",
+    "activeTab",
+    "tabs",
+    "webRequest",
+    "webRequestBlocking",
+    "https://www.red-wheelbarrow.com/forkids/*",
+    "https://www.whatismybrowser.com/detect/*",
+    "https://red-wheelbarrow-stage.apps.nbcuni.com/forkids/activitysheet/"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+   {
+     "matches": ["<all_urls>"],
+     "js": ["content-script.js"]
+   }
+ ]
+}
