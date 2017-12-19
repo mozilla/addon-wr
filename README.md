@@ -2,8 +2,8 @@
 
 ## Getting started
 
-```
-# install depndencies
+```sh
+# install dependencies
 npm install
 
 ## build and run
@@ -12,13 +12,15 @@ npm run web-ext-run
 
 ### Details
 
-First, make sure you are on NPM 5+ installed so that the proper dependencies are installed using the package-lock.json file.
+First, make sure you are on npm 5+ installed so that the proper dependencies are installed using the package-lock.json file.
 
-`$ npm install -g npm`
+```sh
+npm install -g npm
+```
 
 After cloning the repo, you can run the following commands from the top level directory, one after another:
 
-```
+```sh
 npm install
 ```
 
