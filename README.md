@@ -6,11 +6,8 @@
 # install depndencies
 npm install
 
-## build
-cd addon/webextension
-
 ## build and run
-web-ext run
+npm run web-ext-run
 ```
 
 ### Details
