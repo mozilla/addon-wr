@@ -1,6 +1,6 @@
 "use strict";
 
-/* eslint no-cond-assign: "warn"*/
+/* eslint no-cond-assign:warn */
 
 /**
   * Port to communicate with `background.js`, and messaging machinery
@@ -116,10 +116,12 @@ function wrapWith(element, config) {
   );
   let node;
   // loop through nodes
+  // eslint-disable-next-line no-cond-assign
   while (node = nodes.nextNode()) {
     var p = node.parentNode;
     var text = node.nodeValue;
     var m;
+    // eslint-disable-next-line no-cond-assign
     while (m = text.match(re)) {
       // callback on every match
       matchCb(m);

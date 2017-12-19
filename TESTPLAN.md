@@ -6,21 +6,23 @@ This is for version 1.0.5+
 
 ### PREREQUISITES:
 
-    Node 8+ w/ npm 5
-    Firefox 57+
+- Node 8+ w/ npm 5
+- Firefox 57+
 
 ### Installation:
 
-    git clone https://github.com/gregglind/addon-wr.git
-    cd addon-wr
-    npm install
+```sh
+git clone https://github.com/mozilla/addon-wr.git
+cd addon-wr
+npm install
+```
 
 
 ### Invariants:
 
 1.  BUILDABLE and RUNNABLE.  It always builds and runs
 
-    ```
+    ```sh
     cd addon
     npm run web-ext-lint
     npm run web-ext-run
@@ -40,13 +42,6 @@ This is for version 1.0.5+
 
     `npm run eslint`
 
-    Known warnings:
-
-    ```
-    /Users/glind/gits/addon-wr/addon/content-script.js
-      119:10  warning  Expected a conditional expression and instead saw an assignment  no-cond-assign
-      123:11  warning  Expected a conditional expression and instead saw an assignment  no-cond-assign
-    ```
 
 ## Tests:
 
